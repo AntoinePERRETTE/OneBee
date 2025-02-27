@@ -1,0 +1,5 @@
+#include "gpio.h"
+
+void GPIO_Init(void){
+	RCC->IOPENR   |= RCC_IOPENR_GPIOBEN | RCC_IOPENR_GPIOCEN|RCC_IOPENR_GPIOAEN;
+}

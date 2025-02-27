@@ -1,0 +1,9 @@
+C:/Users/aland/Desktop/Projet/Equipe1_RucheConnecte_V2/Drivers/CMSIS/Include/core_cm0plus.h:741:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Src/LORAWAN.c:25:6:LORA_initPortCom	16	static
+../Src/LORAWAN.c:50:6:LORA_startPortCom	8	static
+../Src/LORAWAN.c:54:6:LORA_stopPortCom	8	static
+../Src/LORAWAN.c:58:6:LORAWAN_Join	272	static
+../Src/LORAWAN.c:69:6:LORAWAN_Send	312	static
+../Src/LORAWAN.c:87:6:LORAWAN_Inform	280	static
+../Src/LORAWAN.c:96:6:UART_send	24	static
+../Src/LORAWAN.c:107:6:USART1_IRQHandler	8	static
