@@ -15,9 +15,14 @@
 #include "LORAWAN.h"
 //-----Constante-----//
 
+//---En-Tête de Fonction---//
+void enter_low_power_stop_mode(void);
+
 //-----Programme Principale-----//
 int main(void)
 {
+	//TODO n°1: Check if deepsleep can work with some interruption being used( Check if we can disable some interrupt from the waking from sleep)
+	//TODO n°1.5: Remove, use personnal timer (with TIM2,3 or 14)
 	uint16_t Temperature = 0;
 	uint32_t Poid = 0;
 
@@ -66,4 +71,25 @@ int main(void)
 		LORAWAN_Send(Poid, Temperature);
 		//Stanby mode
 	}
+}
+
+void enter_low_power_stop_mode(void) {
+	// 1. Configurer le contrôleur d'alimentation (PWR)
+	RCC->APBENR1 |= RCC_APBENR1_PWREN;
+
+	// Configurer le mode STOP 1
+	PWR->CR1 = (PWR->CR1 & ~PWR_CR1_LPMS) | (0b001 << PWR_CR1_LPMS_Pos);
+
+	// S'assurer que les interruptions qui doivent réveiller sont bien activées
+	EXTI->IMR1 |= 1 << EXTI_IMR1_IM5_Pos;
+
+	// Permettre au contrôleur de revenir en mode Run après une interruption
+	PWR->CR1 &= ~PWR_CR1_LPMS;
+
+	// 2. Entrer en mode veille
+	SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk; // Configurer le mode veille profond
+	__WFI(); // Entrer en mode veille
+
+	// 3. Après le réveil
+	SCB->SCR &= ~SCB_SCR_SLEEPDEEP_Msk; // Désactiver le mode veille profond
 }
