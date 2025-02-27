@@ -1,3 +1,6 @@
+//------Firmware OneBee----//
+//			v-0.1
+
 //------Library-----//
 #include "main.h"
 #include "gpio.h"
