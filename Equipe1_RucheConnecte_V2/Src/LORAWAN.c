@@ -1,11 +1,11 @@
 /*------------------------------------------------------------
-Programme realiser en L3 ESET 2025
+Programme realisé en L3 ESET 2025
 
 Auteur du fichier : Depierre Alan
 
-Auteur du programme : Perrete Antoine
+Auteur du programme : Perrette Antoine
 
-Aider par : Secret Gillian
+Aidé par : Secret Gillian
 
 
 
@@ -40,8 +40,9 @@ void LORA_initPortCom(void) {
 	//Init UART
 	RCC->APBENR2 |= RCC_APBENR2_USART1EN;
 
-	USART1->CR1 |= 1 << USART_CR1_RXNEIE_RXFNEIE_Pos;		//Enable interruption on reception
-	NVIC_EnableIRQ(USART1_IRQn);
+	//TODO uncomment if UART rx used
+//	USART1->CR1 |= 1 << USART_CR1_RXNEIE_RXFNEIE_Pos;		//Enable interruption on reception
+//	NVIC_EnableIRQ(USART1_IRQn);
 
 	USART1->CR1 |= (1<<USART_CR1_TE_Pos) | (1 << USART_CR1_RE_Pos);
 	USART1->BRR = SystemCoreClock / 9600;
@@ -56,6 +57,7 @@ void LORA_stopPortCom(void) {
 }
 
 void LORAWAN_Join(void){
+	SYSTICK_Delay(1000);
 	LORA_initPortCom();
 	LORA_startPortCom();
 
@@ -90,7 +92,7 @@ void LORAWAN_Inform(char* string)
 
 	sprintf(bufferToSend, "AT+CMSG=\"%s\"\r\n", string);
 	UART_send(bufferToSend, strlen(bufferToSend));
-	SYSTICK_Delay(15000);
+	delay_ms(15000);
 }
 
 void UART_send(const char* msg, uint32_t size) {
@@ -104,10 +106,10 @@ void UART_send(const char* msg, uint32_t size) {
 	while(!(USART1->ISR & USART_ISR_TC_Msk));	//wait transmition complete
 }
 
-void USART1_IRQHandler(void) {
-	rcvBuffer[iterateurRcvBuffer] = USART1->RDR;
-	if (iterateurRcvBuffer > 511) iterateurRcvBuffer = 0;
-	else iterateurRcvBuffer++;
-	//interrupt reset by reading RDR
-	USART1->ICR |= 1 << USART_ICR_ORECF_Pos;
-}
+//void USART1_IRQHandler(void) {
+//	rcvBuffer[iterateurRcvBuffer] = USART1->RDR;
+//	if (iterateurRcvBuffer > 511) iterateurRcvBuffer = 0;
+//	else iterateurRcvBuffer++;
+//	//interrupt reset by reading RDR
+//	USART1->ICR |= 1 << USART_ICR_ORECF_Pos;
+//}

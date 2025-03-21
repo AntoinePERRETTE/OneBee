@@ -1,9 +1,7 @@
-/home/perrettea/Documents/L3 chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/Drivers/CMSIS/Include/core_cm0plus.h:741:22:__NVIC_EnableIRQ	2
 ../Src/LORAWAN.c:25:6:LORA_initPortCom	1
-../Src/LORAWAN.c:50:6:LORA_startPortCom	1
-../Src/LORAWAN.c:54:6:LORA_stopPortCom	1
-../Src/LORAWAN.c:58:6:LORAWAN_Join	1
-../Src/LORAWAN.c:69:6:LORAWAN_Send	1
-../Src/LORAWAN.c:87:6:LORAWAN_Inform	1
-../Src/LORAWAN.c:96:6:UART_send	4
-../Src/LORAWAN.c:107:6:USART1_IRQHandler	2
+../Src/LORAWAN.c:51:6:LORA_startPortCom	1
+../Src/LORAWAN.c:55:6:LORA_stopPortCom	1
+../Src/LORAWAN.c:59:6:LORAWAN_Join	1
+../Src/LORAWAN.c:71:6:LORAWAN_Send	1
+../Src/LORAWAN.c:89:6:LORAWAN_Inform	1
+../Src/LORAWAN.c:98:6:UART_send	4

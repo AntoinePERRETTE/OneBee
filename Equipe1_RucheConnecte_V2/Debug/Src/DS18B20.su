@@ -1,8 +1,8 @@
 ../Src/DS18B20.c:21:6:DS18B20_Init	8	static
 ../Src/DS18B20.c:29:10:DS18B20_GetTemp	24	static
-../Src/DS18B20.c:70:6:DS18B20_reset	8	static
-../Src/DS18B20.c:95:7:DS18B20_write	24	static
-../Src/DS18B20.c:121:11:DS18B20_ReadConversion	24	static
-../Src/DS18B20.c:135:11:DS18B20_read	16	static
-../Src/DS18B20.c:165:12:DS18B20_Convertion	24	static
-../Src/DS18B20.c:174:10:DS18B20_Verification	16	static
+../Src/DS18B20.c:71:5:DS18B20_reset	8	static
+../Src/DS18B20.c:96:6:DS18B20_write	24	static
+../Src/DS18B20.c:122:10:DS18B20_ReadConversion	24	static
+../Src/DS18B20.c:136:9:DS18B20_read	16	static
+../Src/DS18B20.c:166:7:DS18B20_Convertion	16	static
+../Src/DS18B20.c:172:9:DS18B20_Verification	16	static

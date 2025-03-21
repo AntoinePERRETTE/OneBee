@@ -5,7 +5,7 @@ Auteur du fichier : Depierre Alan
 
 Auteur du programme : Poncet Gregory
 
-Aider par : Perret Antoine
+Aider par : Perrette Antoine
 
 Programme d'entête pour la mesure du poid
 

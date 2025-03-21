@@ -1,9 +1,9 @@
 /home/perrettea/Documents/L3 chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/Drivers/CMSIS/Include/core_cm0plus.h:741:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
 ../Src/HX711.c:29:6:HX711_Init	8	static
-../Src/HX711.c:37:7:HX_Init	8	static
-../Src/HX711.c:54:7:NVIC_Init	8	static
+../Src/HX711.c:37:6:HX_Init	8	static
+../Src/HX711.c:54:6:NVIC_Init	8	static
 ../Src/HX711.c:66:10:HX_Run	32	static
-../Src/HX711.c:87:7:ODR_write	24	static
-../Src/HX711.c:110:10:IDR_read	24	static
-../Src/HX711.c:147:11:hx_read	24	static
-../Src/HX711.c:189:6:EXTI4_15_IRQHandler	16	static
+../Src/HX711.c:87:6:ODR_write	24	static
+../Src/HX711.c:110:9:IDR_read	24	static
+../Src/HX711.c:125:10:hx_read	24	static
+../Src/HX711.c:167:6:EXTI4_15_IRQHandler	16	static

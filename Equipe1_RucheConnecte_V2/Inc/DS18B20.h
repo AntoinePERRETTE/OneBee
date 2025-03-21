@@ -1,9 +1,9 @@
 /*------------------------------------------------------------
 Programme realiser en L3 ESET 2025
 
-Auteur du fichier : Depierre Alan
+Auteur du fichier : Depierre Alianne
 
-Auteur du programme : Depierre Alan
+Auteur du programme : Depierre Alianne
 
 
 
@@ -41,7 +41,7 @@ uint16_t DS18B20_ReadConversion(void);
 
 uint8_t DS18B20_read(void);
 
-uint16_t DS18B20_Convertion(uint16_t raw_value);
+float DS18B20_Convertion(uint16_t raw_value);
 
 uint8_t DS18B20_Verification (uint16_t temp);
 
