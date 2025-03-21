@@ -3,7 +3,7 @@ Programme realiser en L3 ESET 2025
 
 Auteur du fichier : Depierre Alan
 
-Auteur du programme : Perrete Antoine
+Auteur du programme : Perrette Antoine
 
 Aider par : Secret Gillian
 
@@ -56,6 +56,7 @@ void LORA_stopPortCom(void) {
 }
 
 void LORAWAN_Join(void){
+	SYSTICK_Delay(1000);
 	LORA_initPortCom();
 	LORA_startPortCom();
 
