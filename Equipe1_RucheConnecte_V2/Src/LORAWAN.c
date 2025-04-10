@@ -92,7 +92,7 @@ void LORAWAN_Inform(char* string)
 
 	sprintf(bufferToSend, "AT+CMSG=\"%s\"\r\n", string);
 	UART_send(bufferToSend, strlen(bufferToSend));
-	delay_ms(15000);
+	SYSTICK_Delay(15000);
 }
 
 void UART_send(const char* msg, uint32_t size) {

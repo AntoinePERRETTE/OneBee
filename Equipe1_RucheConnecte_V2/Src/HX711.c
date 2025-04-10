@@ -16,6 +16,7 @@ Fonction pour la mesure du poid
 
 /*-----Library-----*/
 #include "HX711.h"
+#include "FLASH.h"
 
 //-----Variable Globale-----//
 uint32_t tare_user = 0;
@@ -167,14 +168,16 @@ uint32_t hx_read(uint8_t Low_Power){
 void EXTI4_15_IRQHandler(void) {
 	tare_user = 0;
 
-	for (uint8_t i = 0; i < 10; i++) {
+	for (uint8_t i = 0; i < 5; i++) {
 		calibration[i] = hx_read(0) & 0x7FFFFF;
 	}
 
 	//moyenne
-	for (uint8_t i = 0; i < 10; i++) {
+	for (uint8_t i = 0; i < 5; i++) {
 		tare_user += calibration[i];
 	}
-	tare_user /= 10;
+	tare_user /= 5;
+	flash_erase_page(ROMADDR);
+	flash_write(ROMADDR, (uint64_t) tare_user);
 	EXTI->RPR1 |= 1 << EXTI_RPR1_RPIF4_Pos;	//Ecrire 1 pour reset ATTENTION !!
 }

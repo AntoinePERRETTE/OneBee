@@ -1,4 +1,5 @@
 "./Src/DS18B20.o"
+"./Src/FLASH.o"
 "./Src/HX711.o"
 "./Src/LORAWAN.o"
 "./Src/SleepMode.o"
