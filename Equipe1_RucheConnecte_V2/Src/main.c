@@ -65,7 +65,7 @@ int main(void)
 			doTare();
 		}
 	}
-	//TODO TEST EVERYTHING !!!
+	//TODO TEST EVERYTHING !!
 
 	//TODO maintenir PB5 a HIGH, et Data DS18B20 a LOW
 	//voir test_Sleep -> pull down & pull up sur gpio quand µC en standby
