@@ -9,6 +9,7 @@ C_SRCS += \
 ../Src/FLASH.c \
 ../Src/HX711.c \
 ../Src/LORAWAN.c \
+../Src/MonTimer.c \
 ../Src/SleepMode.c \
 ../Src/gpio.c \
 ../Src/interrupt.c \
@@ -22,6 +23,7 @@ OBJS += \
 ./Src/FLASH.o \
 ./Src/HX711.o \
 ./Src/LORAWAN.o \
+./Src/MonTimer.o \
 ./Src/SleepMode.o \
 ./Src/gpio.o \
 ./Src/interrupt.o \
@@ -35,6 +37,7 @@ C_DEPS += \
 ./Src/FLASH.d \
 ./Src/HX711.d \
 ./Src/LORAWAN.d \
+./Src/MonTimer.d \
 ./Src/SleepMode.d \
 ./Src/gpio.d \
 ./Src/interrupt.d \
@@ -51,7 +54,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/DS18B20.cyclo ./Src/DS18B20.d ./Src/DS18B20.o ./Src/DS18B20.su ./Src/FLASH.cyclo ./Src/FLASH.d ./Src/FLASH.o ./Src/FLASH.su ./Src/HX711.cyclo ./Src/HX711.d ./Src/HX711.o ./Src/HX711.su ./Src/LORAWAN.cyclo ./Src/LORAWAN.d ./Src/LORAWAN.o ./Src/LORAWAN.su ./Src/SleepMode.cyclo ./Src/SleepMode.d ./Src/SleepMode.o ./Src/SleepMode.su ./Src/gpio.cyclo ./Src/gpio.d ./Src/gpio.o ./Src/gpio.su ./Src/interrupt.cyclo ./Src/interrupt.d ./Src/interrupt.o ./Src/interrupt.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timer.cyclo ./Src/timer.d ./Src/timer.o ./Src/timer.su
+	-$(RM) ./Src/DS18B20.cyclo ./Src/DS18B20.d ./Src/DS18B20.o ./Src/DS18B20.su ./Src/FLASH.cyclo ./Src/FLASH.d ./Src/FLASH.o ./Src/FLASH.su ./Src/HX711.cyclo ./Src/HX711.d ./Src/HX711.o ./Src/HX711.su ./Src/LORAWAN.cyclo ./Src/LORAWAN.d ./Src/LORAWAN.o ./Src/LORAWAN.su ./Src/MonTimer.cyclo ./Src/MonTimer.d ./Src/MonTimer.o ./Src/MonTimer.su ./Src/SleepMode.cyclo ./Src/SleepMode.d ./Src/SleepMode.o ./Src/SleepMode.su ./Src/gpio.cyclo ./Src/gpio.d ./Src/gpio.o ./Src/gpio.su ./Src/interrupt.cyclo ./Src/interrupt.d ./Src/interrupt.o ./Src/interrupt.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timer.cyclo ./Src/timer.d ./Src/timer.o ./Src/timer.su
 
 .PHONY: clean-Src
 

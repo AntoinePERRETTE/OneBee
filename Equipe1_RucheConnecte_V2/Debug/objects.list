@@ -2,6 +2,7 @@
 "./Src/FLASH.o"
 "./Src/HX711.o"
 "./Src/LORAWAN.o"
+"./Src/MonTimer.o"
 "./Src/SleepMode.o"
 "./Src/gpio.o"
 "./Src/interrupt.o"

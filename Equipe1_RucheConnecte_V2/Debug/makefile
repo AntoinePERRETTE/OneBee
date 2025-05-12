@@ -33,34 +33,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := One-Bee-Firmware_v0.1
+BUILD_ARTIFACT_NAME := One-Bee-Firmware_v0.2
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-One-Bee-Firmware_v0.1.elf \
+One-Bee-Firmware_v0.2.elf \
 
 MAP_FILES += \
-One-Bee-Firmware_v0.1.map \
+One-Bee-Firmware_v0.2.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-One-Bee-Firmware_v0.1.list \
+One-Bee-Firmware_v0.2.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: One-Bee-Firmware_v0.1.elf secondary-outputs
+main-build: One-Bee-Firmware_v0.2.elf secondary-outputs
 
 # Tool invocations
-One-Bee-Firmware_v0.1.elf One-Bee-Firmware_v0.1.map: $(OBJS) $(USER_OBJS) /home/perrettea/Documents/L3\ chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/STM32G031K8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "One-Bee-Firmware_v0.1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/home/perrettea/Documents/L3 chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/STM32G031K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="One-Bee-Firmware_v0.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+One-Bee-Firmware_v0.2.elf One-Bee-Firmware_v0.2.map: $(OBJS) $(USER_OBJS) /home/perrettea/Documents/L3\ chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/STM32G031K8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "One-Bee-Firmware_v0.2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/home/perrettea/Documents/L3 chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/STM32G031K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="One-Bee-Firmware_v0.2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -69,14 +69,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-One-Bee-Firmware_v0.1.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "One-Bee-Firmware_v0.1.list"
+One-Bee-Firmware_v0.2.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "One-Bee-Firmware_v0.2.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) One-Bee-Firmware_v0.1.elf One-Bee-Firmware_v0.1.list One-Bee-Firmware_v0.1.map default.size.stdout
+	-$(RM) One-Bee-Firmware_v0.2.elf One-Bee-Firmware_v0.2.list One-Bee-Firmware_v0.2.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -26,14 +26,21 @@ Programme d'entête pour l'envoie des données
 #include <string.h>
 #include <stdint.h>
 #include <stm32g031xx.h>
+
+#include "MonTimer.h"
 /*-----Constante-----*/
+#define PILLE_SIZE 50
+#define BUFFER_SIZE 512
 
 //-----Type stucturé-----//
-typedef enum {
-	NOERROR,
-	NOANSWER,
-	ANSWERNOTFOUND
-}LORA_error;
+typedef enum{ERROR = 0, NO_ERROR}T_RECEIVED_ERROR;
+
+typedef struct T_BUFFERs{
+    uint16_t m_uint16_BufferIt;
+    uint8_t m_bool_MsgOk    : 1;
+    uint8_t m_uint7_PilleIt : 7;
+    char m_str_pille[PILLE_SIZE];
+}T_BUFFER;
 
 /*-----Prototype-----*/
 /**
@@ -77,6 +84,13 @@ void LORAWAN_Inform(char* string);
 * \param[in] uint32_t size la taille de cette chaine de caractère, aka la taille du tableau msg.
 */
 void UART_send(const char*, uint32_t);
-LORA_error LORA_wasReceived(const char*, char*, uint32_t);
+
+T_RECEIVED_ERROR WasReceived(char* x_str_StrCompar);
+T_RECEIVED_ERROR WasReceivedForSend(char* x_str_StrCompar, uint16_t* x_PtrUint16_ParamVal);
+
+uint8_t BufferEmpille(T_BUFFER* x_tBuffer, uint8_t x_uint8_data);
+void BufferInit(T_BUFFER* x_tBuffer);
+uint8_t BufferDepille(T_BUFFER* x_tBuffer);
+void ReadBuffer(T_BUFFER* x_tBuffer);
 
 #endif

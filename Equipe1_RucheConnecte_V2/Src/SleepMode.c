@@ -32,7 +32,7 @@ void RTC_Init() {
 	RTC->WPR = 0xFF;
 }
 
-void enter_low_power_standby_mode(void) {
+void enter_low_power_standby_mode(uint32_t sleepTime) {
 	// Effacer les flags de réveil
 	PWR->SCR |= PWR_SCR_CWUF;
 
@@ -52,12 +52,13 @@ void enter_low_power_standby_mode(void) {
 
 	while (!(RTC->ICSR & RTC_ICSR_WUTWF));  // Attendre que WUTWF soit prêt
 
-	RTC->WUTR = 9;  // Réveil dans 10 secondes
+	//RTC->WUTR = sleepTime;
+	RTC->WUTR = 300; // Réveil dans 10 secondes
 
 	// Select appropriate clock source: 100 binary (not decimal) for 1Hz
 	RTC->SCR |= RTC_SCR_CWUTF;
 	RTC->CR &= ~(7 << RTC_CR_WUCKSEL_Pos);  // Clear bits first
-	RTC->CR |= (4 << RTC_CR_WUCKSEL_Pos);   // Set to binary 100 (decimal 4) //TODO change for 18h->36h
+	RTC->CR |= (4 << RTC_CR_WUCKSEL_Pos);   // Set to binary 100 (decimal 4) //TODO change for 18h->36h binary 110 ??
 
 	RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE;  // Activer le Wakeup Timer et son interruption
 

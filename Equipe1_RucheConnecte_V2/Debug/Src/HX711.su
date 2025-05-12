@@ -1,0 +1,7 @@
+../Src/HX711.c:28:6:HX711_Init	8	static
+../Src/HX711.c:36:6:HX_Init	8	static
+../Src/HX711.c:65:10:HX_Run	32	static
+../Src/HX711.c:86:6:ODR_write	24	static
+../Src/HX711.c:109:9:IDR_read	24	static
+../Src/HX711.c:124:10:hx_read	24	static
+../Src/HX711.c:166:10:doTare	48	static

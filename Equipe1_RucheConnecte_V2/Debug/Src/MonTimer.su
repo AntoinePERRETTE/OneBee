@@ -1,0 +1,8 @@
+../Src/MonTimer.c:6:6:Timer2Init	8	static
+../Src/MonTimer.c:24:6:Timer3Init	8	static
+../Src/MonTimer.c:42:6:Tim2Flag_us	16	static
+../Src/MonTimer.c:52:6:Tim3Flag_ms	16	static
+../Src/MonTimer.c:64:9:get_CptFlag2	8	static
+../Src/MonTimer.c:74:9:get_CptFlag3	8	static
+../Src/MonTimer.c:84:6:TIM2_Delay_us	16	static
+../Src/MonTimer.c:96:6:TIM3_Delay_ms	16	static

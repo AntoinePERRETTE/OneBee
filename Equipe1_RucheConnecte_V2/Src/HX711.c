@@ -19,8 +19,6 @@ Fonction pour la mesure du poid
 #include "FLASH.h"
 
 //-----Variable Globale-----//
-uint32_t tare_user = 0;
-uint32_t calibration[5] = {0};
 
 /*-----Fonction-----*/
 
@@ -29,7 +27,7 @@ uint32_t calibration[5] = {0};
  */
 void HX711_Init(void){
 	HX_Init();
-	NVIC_Init();
+	//NVIC_Init();
 }
 
 /**
@@ -45,19 +43,19 @@ void HX_Init(void){
 	GPIOB->MODER  &= ~(GPIO_MODER_MODE9_Msk);
 	GPIOB->MODER  |= INPUT_MODE << GPIO_MODER_MODE9_Pos;	// PB9 en Input DOUT HX711
 
-	GPIOB->MODER  &= ~(GPIO_MODER_MODE4_Msk);
-	GPIOB->MODER  |= INPUT_MODE << GPIO_MODER_MODE4_Pos;	// PB4 en Input pour BP de Tare
+//	GPIOB->MODER  &= ~(GPIO_MODER_MODE4_Msk);
+//	GPIOB->MODER  |= INPUT_MODE << GPIO_MODER_MODE4_Pos;	// PB4 en Input pour BP de Tare
 }
 
 /**
  * \brief Init NVIC, PB4 en interrupt
  */
-void NVIC_Init(void){
-	EXTI->EXTICR[1] |= (1 << EXTI_EXTICR2_EXTI4_Pos);		//PB4 sur la ligne EXTI
-	EXTI->RTSR1 |= (1 << EXTI_RTSR1_RT4_Pos);					//Rising Trigger
-	EXTI->IMR1 |= (1 << EXTI_IMR1_IM4_Pos);
-	NVIC_EnableIRQ(EXTI4_15_IRQn);
-}
+//void NVIC_Init(void){
+//	EXTI->EXTICR[1] |= (1 << EXTI_EXTICR2_EXTI4_Pos);		//PB4 sur la ligne EXTI
+//	EXTI->RTSR1 |= (1 << EXTI_RTSR1_RT4_Pos);					//Rising Trigger
+//	EXTI->IMR1 |= (1 << EXTI_IMR1_IM4_Pos);
+//	NVIC_EnableIRQ(EXTI4_15_IRQn);
+//}
 
 /**
  * \brief Main du HX711
@@ -163,10 +161,11 @@ uint32_t hx_read(uint8_t Low_Power){
 
 /**
  * \brief Gestion d'interruption HX711
- * \details Cette fonction gère l'interruption de la tare_user via GPIOB PB4
+ * \details Cette fonction gère l'interruption de la tare via GPIOB PB4
  */
-void EXTI4_15_IRQHandler(void) {
-	tare_user = 0;
+uint32_t doTare(void) {
+	uint32_t tare = 0;
+	uint32_t calibration[5] = {0};
 
 	for (uint8_t i = 0; i < 5; i++) {
 		calibration[i] = hx_read(0) & 0x7FFFFF;
@@ -174,10 +173,11 @@ void EXTI4_15_IRQHandler(void) {
 
 	//moyenne
 	for (uint8_t i = 0; i < 5; i++) {
-		tare_user += calibration[i];
+		tare += calibration[i];
 	}
-	tare_user /= 5;
-	flash_erase_page(ROMADDR);
-	flash_write(ROMADDR, (uint64_t) tare_user);
+	tare /= 5;
+	flash_erase_page(ROMADDRTARE);
+	flash_write(ROMADDRTARE, (uint64_t) tare);
+	return tare;
 	EXTI->RPR1 |= 1 << EXTI_RPR1_RPIF4_Pos;	//Ecrire 1 pour reset ATTENTION !!
 }

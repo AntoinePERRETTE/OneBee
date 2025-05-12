@@ -50,5 +50,6 @@ uint32_t calibration_loadCell(void);
 uint32_t hx_read(uint8_t Low_Power);
 void USART_send(const char* msg, uint32_t size);
 uint32_t HX_Run(uint32_t tare);
+uint32_t doTare(void);
 
 #endif
