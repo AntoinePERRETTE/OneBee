@@ -3,7 +3,8 @@
 #include "timer.h"
 #include <stm32g031xx.h>
 
-void RTC_Init();
+void GPIO_SleepStatusInit(void);
+void RTC_Init(void);
 void enter_low_power_standby_mode(uint32_t sleepTime);
 
 #endif

@@ -1,7 +1,4 @@
-../Src/HX711.c:28:6:HX711_Init	1
-../Src/HX711.c:36:6:HX_Init	1
-../Src/HX711.c:65:10:HX_Run	1
-../Src/HX711.c:86:6:ODR_write	2
-../Src/HX711.c:109:9:IDR_read	1
-../Src/HX711.c:124:10:hx_read	5
-../Src/HX711.c:166:10:doTare	3
+../Src/HX711.c:25:6:HX_init	1
+../Src/HX711.c:44:10:HX_getData	1
+../Src/HX711.c:58:10:HX_read	5
+../Src/HX711.c:100:6:HX_getTare	3

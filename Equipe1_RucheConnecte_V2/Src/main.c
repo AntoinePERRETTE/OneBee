@@ -1,5 +1,5 @@
 //------Firmware OneBee----//
-//			v-0.2.2
+//			v-0.2.5
 
 //------Library-----//
 #include "main.h"
@@ -25,52 +25,54 @@ int main(void)
  	uint16_t Temperature = 0;
 	uint32_t Poid = 0;
 	uint16_t valueFromDownLink = 0;
-	T_RECEIVED_ERROR noErrorOfReception = NO_ERROR;
 	uint32_t tare = (uint32_t) read_flash_memory(ROMADDRTARE);
-	uint8_t nbOfMeasurePerDay = (uint8_t) read_flash_memory(ROMADDRNBOFMEASURE);
+	uint16_t nbOfMeasurePerDay = (uint16_t) read_flash_memory(ROMADDRNBOFMEASURE);
 	uint8_t isTareRequested = 0;
 
 	GPIO_Init();
-	GPIOA->ODR |= 1 << GPIO_ODR_OD0_Pos; //LED D6
-	GPIOB->ODR |= 1 << GPIO_ODR_OD5_Pos;
+	GPIO_write(0, 1, GPIOA); //LED 6
+	GPIO_write(5, 1, GPIOB);
+	GPIO_SleepStatusInit();
+
 	TIM2_Init();
 	Timer3Init();	//For timeout in LORA
-	SYSTICK_Init(); // TODO use only one timer, BUG with TIM2 ???
+	SYSTICK_Init();
 	RTC_Init();
 
 	LORAWAN_Join(); //Alim coupée, donc nécessaire.
 
-	DS18B20_Init();
-	HX711_Init();
+	DS18B20_init();
+	HX_init();
 
 	//Mesure des grandeur
-	Temperature = DS18B20_GetTemp();
+	Temperature = DS18B20_getTemp();
 
-	Poid = HX_Run(tare);
+	Poid = HX_getData(tare);
 
 	if (WasReceived("+JOIN: Done")) {
 		//Envoi sur TTN
 		LORAWAN_Send(Poid, Temperature);
 		SYSTICK_Delay(10000);	//seulement pour debug
-		//Si commande de Tare, alors tare effectuée
-		noErrorOfReception = WasReceivedForSend("Done", &valueFromDownLink);
-		isTareRequested = valueFromDownLink & 1;
-		if (((valueFromDownLink & 0xFFFE) / 10) != nbOfMeasurePerDay && valueFromDownLink & 0xFFFE >= 10) {
-			nbOfMeasurePerDay = (valueFromDownLink & 0xFFFE) / 10;
-			//flash_erase_page(ROMADDRNBOFMEASURE);
-			//flash_write(ROMADDRNBOFMEASURE, (uint64_t) nbOfMeasurePerDay);
-		}
 
-		if (isTareRequested) {
-			doTare();
+		//Si commande de Tare, alors tare effectuée
+		if (WasReceivedForSend("Done", &valueFromDownLink)) {
+			isTareRequested = (valueFromDownLink & 0x8000) > 0;
+
+			if ((valueFromDownLink & 0x7FFF) != nbOfMeasurePerDay && (valueFromDownLink & 0x7FFF) >= 3) {
+				nbOfMeasurePerDay = (valueFromDownLink & 0x7FFF);
+				flash_erase_page(ROMADDRNBOFMEASURE);
+				flash_write(ROMADDRNBOFMEASURE, (uint64_t) nbOfMeasurePerDay);
+			}
+
+			if (isTareRequested) {
+				HX_getTare();
+			}
 		}
 	}
-	//TODO TEST EVERYTHING !!
 
-	//TODO maintenir PB5 a HIGH, et Data DS18B20 a LOW
-	//voir test_Sleep -> pull down & pull up sur gpio quand µC en standby
-	GPIOA->ODR &= ~GPIO_ODR_OD0_Msk; //LED D6
-	GPIOB->ODR &= ~GPIO_ODR_OD5_Msk;
+	GPIO_write(0, 0, GPIOA); //LED 6
+	//GPIO_write(5, 0, GPIOB);
+	PWR->CR3 |= 1 << PWR_CR3_APC_Pos;
 
 	enter_low_power_standby_mode(86400 / nbOfMeasurePerDay);
 	//DO NOT ADD CODE HERE AND AFTER

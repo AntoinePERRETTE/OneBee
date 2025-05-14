@@ -1,5 +1,11 @@
 #include "SleepMode.h"
 
+void GPIO_SleepStatusInit(void) {
+	RCC->APBENR1 |= RCC_APBENR1_PWREN;
+	PWR->CR3 &= ~PWR_CR3_APC_Pos;
+	PWR->PDCRB |= 1 << PWR_PDCRB_PD5_Pos;	//PB5 à LOW en standby, when APC is HIGH
+}
+
 void RTC_TAMP_IRQHandler(void) {
 	// Déverrouiller les registres RTC (important!)
 	RTC->WPR = 0xCA;
@@ -12,7 +18,7 @@ void RTC_TAMP_IRQHandler(void) {
 	RTC->WPR = 0xFF;
 }
 
-void RTC_Init() {
+void RTC_Init(void) {
 	RCC->APBENR1 |= RCC_APBENR1_PWREN;
 	RCC->APBENR1 |= RCC_APBENR1_RTCAPBEN;
 
@@ -52,19 +58,19 @@ void enter_low_power_standby_mode(uint32_t sleepTime) {
 
 	while (!(RTC->ICSR & RTC_ICSR_WUTWF));  // Attendre que WUTWF soit prêt
 
-	//RTC->WUTR = sleepTime;
-	RTC->WUTR = 300; // Réveil dans 10 secondes
+	RTC->WUTR = sleepTime;
+	//RTC->WUTR = 4; // Réveil dans 5 secondes
 
 	// Select appropriate clock source: 100 binary (not decimal) for 1Hz
 	RTC->SCR |= RTC_SCR_CWUTF;
 	RTC->CR &= ~(7 << RTC_CR_WUCKSEL_Pos);  // Clear bits first
-	RTC->CR |= (4 << RTC_CR_WUCKSEL_Pos);   // Set to binary 100 (decimal 4) //TODO change for 18h->36h binary 110 ??
+	RTC->CR |= (4 << RTC_CR_WUCKSEL_Pos);   // Set to binary 100 (decimal 4)
 
 	RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE;  // Activer le Wakeup Timer et son interruption
 
 	RTC->WPR = 0xFF;
 
-	// 2. Entrer en mode veille
+	// Entrer en mode veille
 	SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk; // Configurer le mode veille profond
 	NVIC_EnableIRQ(RTC_TAMP_IRQn);  // Activer l’IRQ RTC Wakeup
 

@@ -7,11 +7,7 @@ Auteur du programme : Perrette Antoine
 
 Aidé par : Secret Gillian
 
-
-
 Fonctions pour l'envoie des données
-
-
 
 -------------------------------------------------------------*/
 /*-----Library-----*/
