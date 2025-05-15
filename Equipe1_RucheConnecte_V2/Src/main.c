@@ -1,5 +1,5 @@
 //------Firmware OneBee----//
-//			v-0.1
+//			v-0.2.5
 
 //------Library-----//
 #include "main.h"
@@ -13,57 +13,69 @@
 #include "DS18B20.h"
 #include "HX711.h"
 #include "LORAWAN.h"
+#include "SleepMode.h"
+#include "FLASH.h"
 //-----Constante-----//
 
-//-----Programme Principale-----//
+//---En-Tête de Fonction---//
+
+//-----Programme Principal-----//
 int main(void)
 {
-	uint16_t Temperature = 0;
+ 	uint16_t Temperature = 0;
 	uint32_t Poid = 0;
+	uint16_t valueFromDownLink = 0;
+	uint32_t tare = (uint32_t) read_flash_memory(ROMADDRTARE);
+	uint16_t nbOfMeasurePerDay = (uint16_t) read_flash_memory(ROMADDRNBOFMEASURE);
+	uint8_t isTareRequested = 0;
 
 	GPIO_Init();
-	SYSTICK_Init();
+	GPIO_write(0, 1, GPIOA); //LED 6
+	GPIO_write(5, 1, GPIOB);
+	GPIO_SleepStatusInit();
+
 	TIM2_Init();
+	Timer3Init();	//For timeout in LORA
+	SYSTICK_Init();
+	RTC_Init();
 
-	DS18B20_Init();
-	HX711_Init();
-	LORAWAN_Join();
+	LORAWAN_Join(); //Alim coupée, donc nécessaire.
 
-	while(1){
-		/*Verification de l'instalation des périphériques
+	DS18B20_init();
+	HX_init();
 
-		//LORAWAN
-		int at_send_check_response(const char *p_ack, int timeout_ms, const char *p_cmd, ...) {
-			char cmd_buffer[256];
-			va_list args;
+	//Mesure des grandeur
+	Temperature = DS18B20_getTemp();
 
-			va_start(args, p_cmd);
-			vsnprintf(cmd_buffer, sizeof(cmd_buffer), p_cmd, args);
-			va_end(args);
+	Poid = HX_getData(tare);
 
-			UART_Send("%s", cmd_buffer); // Envoyer la commande
-			memset(recv_buf, 0, sizeof(recv_buf));
-			UART_Receive(recv_buf, timeout_ms);
-
-			if (strstr(recv_buf, p_ack) != NULL) { // Vérifier si la réponse contient p_ack
-				return 1;
-			}
-			return 0;
-		}
-		//HX711
-
-		//DS18B20
-		if(DS18B20_reset(void)){
-
-		}
-		*/
-
-		//Mesure des grandeur
-		Temperature = DS18B20_GetTemp();
-		Poid = HX_Run(tare_user);
-
-		//Envoie Node Red
+	if (WasReceived("+JOIN: Done")) {
+		//Envoi sur TTN
 		LORAWAN_Send(Poid, Temperature);
-		//Stanby mode
+		SYSTICK_Delay(10000);	//seulement pour debug
+
+		//Si commande de Tare, alors tare effectuée
+		if (WasReceivedForSend("Done", &valueFromDownLink)) {
+			isTareRequested = (valueFromDownLink & 0x8000) > 0;
+
+			if ((valueFromDownLink & 0x7FFF) != nbOfMeasurePerDay && (valueFromDownLink & 0x7FFF) >= 3) {
+				nbOfMeasurePerDay = (valueFromDownLink & 0x7FFF);
+				flash_erase_page(ROMADDRNBOFMEASURE);
+				flash_write(ROMADDRNBOFMEASURE, (uint64_t) nbOfMeasurePerDay);
+			}
+
+			if (isTareRequested) {
+				HX_getTare();
+			}
+		}
 	}
+
+	GPIO_write(0, 0, GPIOA); //LED 6
+	//GPIO_write(5, 0, GPIOB);
+	PWR->CR3 |= 1 << PWR_CR3_APC_Pos;
+
+	enter_low_power_standby_mode(86400 / nbOfMeasurePerDay);
+	//DO NOT ADD CODE HERE AND AFTER
 }
+
+

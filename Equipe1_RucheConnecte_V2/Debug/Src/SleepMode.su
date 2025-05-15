@@ -1,0 +1,5 @@
+/home/perrettea/Documents/L3 chambery/spacebee/Space-Bee-main/Equipe1_RucheConnecte_V2/Drivers/CMSIS/Include/core_cm0plus.h:741:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Src/SleepMode.c:3:6:GPIO_SleepStatusInit	8	static
+../Src/SleepMode.c:9:6:RTC_TAMP_IRQHandler	8	static
+../Src/SleepMode.c:21:6:RTC_Init	8	static
+../Src/SleepMode.c:41:6:enter_low_power_standby_mode	16	static,ignoring_inline_asm

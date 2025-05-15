@@ -1,8 +1,8 @@
-../Src/DS18B20.c:21:6:DS18B20_Init	1
-../Src/DS18B20.c:29:10:DS18B20_GetTemp	2
-../Src/DS18B20.c:70:6:DS18B20_reset	2
-../Src/DS18B20.c:95:7:DS18B20_write	3
-../Src/DS18B20.c:121:11:DS18B20_ReadConversion	1
-../Src/DS18B20.c:135:11:DS18B20_read	3
-../Src/DS18B20.c:165:12:DS18B20_Convertion	1
-../Src/DS18B20.c:174:10:DS18B20_Verification	3
+../Src/DS18B20.c:21:6:DS18B20_init	1
+../Src/DS18B20.c:29:10:DS18B20_getTemp	2
+../Src/DS18B20.c:71:5:DS18B20_reset	2
+../Src/DS18B20.c:97:6:DS18B20_write	3
+../Src/DS18B20.c:123:10:DS18B20_convertMeasure	1
+../Src/DS18B20.c:137:9:DS18B20_readMeasure	3
+../Src/DS18B20.c:167:7:DS18B20_convertToCelsius	1
+../Src/DS18B20.c:173:9:DS18B20_checkError	3
