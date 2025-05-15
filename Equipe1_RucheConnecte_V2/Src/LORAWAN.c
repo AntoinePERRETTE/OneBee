@@ -3,9 +3,9 @@ Programme realisé en L3 ESET 2025
 
 Auteur du fichier : Depierre Alan
 
-Auteur du programme : Perrette Antoine
+Auteur du programme : Secret Gillian
 
-Aidé par : Secret Gillian
+Aidé par : Perrette Antoine
 
 Fonctions pour l'envoie des données
 
@@ -57,7 +57,9 @@ void LORA_stopPortCom(void) {
 }
 
 void LORAWAN_Join(void){
+
 	SYSTICK_Delay(3000);
+
 	LORA_initPortCom();
 	LORA_startPortCom();
 
